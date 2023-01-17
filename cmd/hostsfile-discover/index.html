@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.Host}}</title>
+    <style>
+    {{template "pico.classless.css"}}
+    </style>
+    
+</head>
+
+<body>
+    <header>
+    <h1>{{.Host}}</h1>
+    </header>
+    <main>
+    <ul>
+        {{range .List}}
+        <li><a href="http://{{.Name}}">{{.Name}}</a> (<small>{{.Ip}}</small>)</li>
+
+        {{end}}
+    </ul>
+    </main>
+</body>
+</html>

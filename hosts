@@ -1,0 +1,17 @@
+2023/01/15 16:32:35 ##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+
+
+1.2.3.4 homestead
+1.2.3.5 energy.homestead
+
+1.2.3.6 energy.the-hut.homestead
+1.2.3.7 entrance-light-switch.the-hut.homestead
+1.2.3.8 the-hut.homestead
