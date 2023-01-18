@@ -15,9 +15,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("Entries found in '%s':\n %v \n", CONFIG.HOSTS_FILE_PATH(), entries)
+	log.Printf("%d entries matching TLD .'%s' found in '%s':\n %v \n",
+		len(entries),
+		CONFIG.TLD(),
+		CONFIG.HOSTS_FILE_PATH(), entries)
 
-	helloHandler := func(w http.ResponseWriter, req *http.Request) {
+	handler := func(w http.ResponseWriter, req *http.Request) {
 		host := getHost(req)
 		entries, err := getEntriesMatching(host)
 
@@ -42,7 +45,7 @@ func main() {
 		}
 	}
 
-	http.HandleFunc("/", helloHandler)
+	http.HandleFunc("/", handler)
 	log.Printf("Listing for requests at :%d", CONFIG.PORT())
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", CONFIG.PORT()), logRequest(http.DefaultServeMux)))
 }

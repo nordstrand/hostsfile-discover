@@ -43,9 +43,7 @@ func getHostFileEntries() ([]hostfile_entry, error) {
 	var entries []hostfile_entry
 
 	for scanner.Scan() {
-		entry := processHostfileLine(CONFIG.TLD(), scanner.Text())
-
-		if entry != nil {
+		if entry := processHostfileLine(CONFIG.TLD(), scanner.Text()); entry != nil {
 			entries = append(entries, *entry)
 		}
 	}
