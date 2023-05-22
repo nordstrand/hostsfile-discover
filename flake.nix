@@ -9,7 +9,7 @@
     system = "x86_64-linux";
     pname = "hostsfile-discover";
     pkgs = import nixpkgs {inherit system;};
-  in {
+  in rec {
     packages.${system} = {
       default = pkgs.buildGoModule {
         name = pname;
@@ -50,7 +50,7 @@
               HOSTS_FILE_PATH = "/etc/hosts";
             };
             serviceConfig = let
-              selfpackage = self.packages.${system}.default;
+              selfpackage = packages.${system}.default;
             in {
               Restart = "on-failure";
               ExecStart = "${selfpackage}/bin/hostsfile-discover";
