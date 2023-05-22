@@ -46,7 +46,7 @@
             wantedBy = ["multi-user.target"];
             environment = {
               TLD = "${cfg.tld}";
-              PORT = "${cfg.port}";
+              PORT = "${toString cfg.port}";
               HOSTS_FILE_PATH = "/etc/hosts";
             };
             serviceConfig = let
