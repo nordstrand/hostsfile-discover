@@ -22,8 +22,7 @@ func (Config) TLD() string {
 func (Config) PORT() int {
 	env_PORT := os.Getenv("PORT")
 	port, err := strconv.Atoi(env_PORT)
-
-	if env_PORT != "" && err != nil {
+	if env_PORT != "" && err == nil {
 		return port
 	} else {
 		return 8000
