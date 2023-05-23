@@ -46,7 +46,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", handler)
-	log.Printf("Listing for requests at :%d", CONFIG.PORT())
+	log.Printf("Listening for requests at :%d", CONFIG.PORT())
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", CONFIG.PORT()), logRequest(http.DefaultServeMux)))
 }
 
