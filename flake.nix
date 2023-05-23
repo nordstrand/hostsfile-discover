@@ -43,7 +43,8 @@
 
         config = mkIf cfg.enable {
           systemd.services.hostsfile-discover = {
-            wantedBy = ["multi-user.target"];
+            #wantedBy = ["multi-user.target"];
+            after = "network.target";
             environment = {
               TLD = "${cfg.tld}";
               PORT = "${toString cfg.port}";

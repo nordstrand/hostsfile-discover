@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"html/template"
 	"io"
@@ -8,6 +9,9 @@ import (
 	"net/http"
 	"strings"
 )
+
+//go:embed templates/*
+var Assets embed.FS
 
 func main() {
 	entries, err := getHostFileEntries()
@@ -31,7 +35,10 @@ func main() {
 			return
 		}
 
-		tmpl := template.Must(template.ParseFiles("index.html", "pico.classless.css"))
+		tmpl, err := template.ParseFS(Assets, "templates/index.html", "templates/pico.classless.css")
+		if err != nil {
+			log.Fatal(err)
+		}
 		data := struct {
 			Host string
 			List []hostfile_entry
