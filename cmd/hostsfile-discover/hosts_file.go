@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -66,7 +67,9 @@ func processHostfileLine(tld string, line string) *hostfile_entry {
 
 	name := fields[1]
 
-	if !strings.HasSuffix(name, "."+tld) || name == tld {
+        tldRegExp := regexp.MustCompile("\\.?" +  tld + "$")
+
+	if ! tldRegExp.Match( []byte(name)) {
 		return nil
 	}
 
