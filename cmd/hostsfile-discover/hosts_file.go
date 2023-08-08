@@ -44,36 +44,37 @@ func getHostFileEntries() ([]hostfile_entry, error) {
 	var entries []hostfile_entry
 
 	for scanner.Scan() {
-		if entry := processHostfileLine(CONFIG.TLD(), scanner.Text()); entry != nil {
-			entries = append(entries, *entry)
-		}
+		entriesFromLine := processHostfileLine(CONFIG.TLD(), scanner.Text())
+		entries = append(entries, entriesFromLine...)
+
 	}
 
 	return entries, nil
 }
 
-func processHostfileLine(tld string, line string) *hostfile_entry {
+func processHostfileLine(tld string, line string) []hostfile_entry {
 	fields := strings.Fields(line)
 
 	if len(fields) < 2 {
-		return nil
+		return []hostfile_entry{}
 	}
 
 	ipAddress := net.ParseIP(fields[0])
 
 	if ipAddress == nil || ipAddress.IsLoopback() || ipAddress.IsMulticast() {
-		return nil
+		return []hostfile_entry{}
 	}
 
-	name := fields[1]
+	var entries []hostfile_entry
+	for i := 1; i < len(fields); i++ {
+		name := fields[1]
 
-        tldRegExp := regexp.MustCompile("\\.?" +  tld + "$")
-
-	if ! tldRegExp.Match( []byte(name)) {
-		return nil
+		tldRegExp := regexp.MustCompile("\\.?" + tld + "$")
+		if tldRegExp.Match([]byte(name)) {
+			entries = append(entries, hostfile_entry{Ip: ipAddress, Name: name})
+		}
 	}
-
-	return &hostfile_entry{Ip: ipAddress, Name: name}
+	return entries
 }
 
 func filter[T any](ss []T, test func(T) bool) (ret []T) {
