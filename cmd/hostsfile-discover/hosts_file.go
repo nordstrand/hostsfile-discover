@@ -67,7 +67,7 @@ func processHostfileLine(tld string, line string) []hostfile_entry {
 
 	var entries []hostfile_entry
 	for i := 1; i < len(fields); i++ {
-		name := fields[1]
+		name := fields[i]
 
 		tldRegExp := regexp.MustCompile("\\.?" + tld + "$")
 		if tldRegExp.Match([]byte(name)) {
