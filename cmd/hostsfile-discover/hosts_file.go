@@ -25,7 +25,8 @@ func getEntriesMatching(hostname string) ([]hostfile_entry, error) {
 		return []hostfile_entry{}, err
 	}
 
-	matching := filter(entries, func(h hostfile_entry) bool { return strings.HasSuffix(h.Name, "."+hostname) })
+	hostRegExp := regexp.MustCompile("^[^\\.]*\\." + hostname + "\\.?$")
+	matching := filter(entries, func(h hostfile_entry) bool { return hostRegExp.Match([]byte(h.Name)) })
 	sort.Slice(matching, func(i, j int) bool {
 		return matching[i].Name < matching[j].Name
 	})
