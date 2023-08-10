@@ -13,13 +13,12 @@
 
 <body>
     <header>
-	    <h1><a href="http://{{.Host}}">{{.Host}}</a></h1>
+	    <h1><a href="http://{{.ParentHost}}">{{.Host}}</a></h1>
     </header>
     <main>
     <ul>
         {{range .List}}
         <li><a href="http://{{.Name}}">{{.Name}}</a> (<small>{{.Ip}}</small>)</li>
-
         {{end}}
     </ul>
     </main>

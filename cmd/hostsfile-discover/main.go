@@ -39,11 +39,19 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		split := strings.Split(strings.TrimSuffix(host, "."), ".")
+		parentHost := host
+                if len(split) > 1 {
+			parentHost = strings.Join(split[1:], ".")+"."
+		} 
+
 		data := struct {
 			Host string
+			ParentHost string
 			List []hostfile_entry
 		}{
 			Host: host,
+			ParentHost: parentHost,
 			List: entries,
 		}
 		err = tmpl.Execute(w, data)
