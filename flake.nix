@@ -1,8 +1,8 @@
 {
-  description = "Simple flake";
+  description = "Hostsfile discoverer";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.05";
+    nixpkgs.url = "nixpkgs/nixos-24.05";
   };
 
   outputs = {nixpkgs, ...}: let
@@ -14,7 +14,7 @@
       default = pkgs.buildGoModule {
         name = pname;
         src = ./.;
-        vendorSha256 = null;
+        vendorHash = null; # no vendored dependencies
       };
     };
     nixosModules.default = {
@@ -43,7 +43,7 @@
 
         config = mkIf cfg.enable {
           systemd.services.hostsfile-discover = {
-            #wantedBy = ["multi-user.target"];
+            wantedBy = ["multi-user.target"];
             after = ["network.target"];
             environment = {
               TLD = "${cfg.tld}";
